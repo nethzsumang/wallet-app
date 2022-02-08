@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Constants\ErrorConstants;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -62,7 +63,7 @@ class Handler extends ExceptionHandler
             );
         });
 
-        $this->renderable(function (ServerErrorException $e) {
+        $this->renderable(function (ServerErrorException|QueryException $e) {
             return response()->json(
                 $this->getErrorData(
                     ErrorConstants::ERROR_CODES[ErrorConstants::INTERNAL_SERVER_ERROR],

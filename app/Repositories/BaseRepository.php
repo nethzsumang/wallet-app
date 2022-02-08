@@ -1,6 +1,8 @@
 <?php
 namespace App\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * BaseRepository class
  * @author Kenneth Sumang
@@ -10,13 +12,13 @@ class BaseRepository
     /**
      * @var string
      */
-    protected string $model;
+    protected Model $model;
 
     /**
      * BaseRepository constructor.
      * @param string $model
      */
-    public function __construct(string $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }
