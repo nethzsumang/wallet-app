@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->prefix('/users')->group(static function () {
+Route::prefix('/users')->group(static function () {
     Route::post('/', 'UserController@registerUser');
 });
