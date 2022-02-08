@@ -136,6 +136,7 @@ class RegisterUserTest extends TestCase
                 'email' => 'admin@example.com'
             ]
         );
+        var_dump($response->json());
         $response->assertStatus(400);
         $response->assertJsonStructure([
             'error' => [
@@ -225,7 +226,7 @@ class RegisterUserTest extends TestCase
             $this->registerUri,
             [
                 'name' => 'Admin',
-                'username' => 'admin2',
+                'username' => 'admin',
                 'email' => 'admin@example.com',
                 'password' => 'admin'
             ]

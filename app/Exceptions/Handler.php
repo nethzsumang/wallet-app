@@ -43,11 +43,22 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->renderable(function (BadRequestException|ValidationException $e) {
+        $this->renderable(function (BadRequestException $e) {
             return response()->json(
                 $this->getErrorData(
                     ErrorConstants::ERROR_CODES[ErrorConstants::BAD_REQUEST],
                     $e->getMessage()
+                ),
+                ErrorConstants::ERROR_CODES[ErrorConstants::BAD_REQUEST]
+            );
+        });
+
+        $this->renderable(function (ValidationException $e) {
+            return response()->json(
+                $this->getErrorData(
+                    ErrorConstants::ERROR_CODES[ErrorConstants::BAD_REQUEST],
+                    $e->getMessage(),
+                    $e->errors()
                 ),
                 ErrorConstants::ERROR_CODES[ErrorConstants::BAD_REQUEST]
             );
