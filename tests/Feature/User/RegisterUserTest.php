@@ -18,9 +18,9 @@ class RegisterUserTest extends TestCase
 
     private $registerUri = '';
 
-    public function __construct()
+    public function setUp(): void
     {
-        parent::__construct();
+        parent::setUp();
         $this->registerUri = config('app.APP_URL') . '/api/users';
     }
 
@@ -40,19 +40,17 @@ class RegisterUserTest extends TestCase
                 'password' => 'Admin123!'
             ]
         );
-        $response->assertStatus(200);
-        $response->assertJson(static function (AssertableJson $json) {
-            $json->assertJsonStructure([
-                'data' => [
-                    'id',
-                    'name',
-                    'username',
-                    'email',
-                    'created_at',
-                    'updated_at'
-                ]
-            ]);
-        });
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'username',
+                'email',
+                'created_at',
+                'updated_at'
+            ]
+        ]);
     }
 
     /**
@@ -69,15 +67,13 @@ class RegisterUserTest extends TestCase
             ]
         );
         $response->assertStatus(400);
-        $response->assertJson(static function (AssertableJson $json) {
-            $json->assertJsonStructure([
-                'error' => [
-                    'code',
-                    'message',
-                    'data'
-                ]
-            ]);
-        });
+        $response->assertJsonStructure([
+            'error' => [
+                'code',
+                'message',
+                'data'
+            ]
+        ]);
         $response->assertJsonPath('error.code', 400);
     }
 
@@ -95,15 +91,13 @@ class RegisterUserTest extends TestCase
             ]
         );
         $response->assertStatus(400);
-        $response->assertJson(static function (AssertableJson $json) {
-            $json->assertJsonStructure([
-                'error' => [
-                    'code',
-                    'message',
-                    'data'
-                ]
-            ]);
-        });
+        $response->assertJsonStructure([
+            'error' => [
+                'code',
+                'message',
+                'data'
+            ]
+        ]);
     }
 
     /**
@@ -120,15 +114,13 @@ class RegisterUserTest extends TestCase
             ]
         );
         $response->assertStatus(400);
-        $response->assertJson(static function (AssertableJson $json) {
-            $json->assertJsonStructure([
-                'error' => [
-                    'code',
-                    'message',
-                    'data'
-                ]
-            ]);
-        });
+        $response->assertJsonStructure([
+            'error' => [
+                'code',
+                'message',
+                'data'
+            ]
+        ]);
     }
 
     /**
@@ -145,15 +137,13 @@ class RegisterUserTest extends TestCase
             ]
         );
         $response->assertStatus(400);
-        $response->assertJson(static function (AssertableJson $json) {
-            $json->assertJsonStructure([
-                'error' => [
-                    'code',
-                    'message',
-                    'data'
-                ]
-            ]);
-        });
+        $response->assertJsonStructure([
+            'error' => [
+                'code',
+                'message',
+                'data'
+            ]
+        ]);
     }
 
     /**
@@ -168,20 +158,27 @@ class RegisterUserTest extends TestCase
             [
                 'name' => 'Admin',
                 'username' => 'admin',
+                'email' => 'admin@example.com',
+                'password' => 'Admin123!'
+            ]
+        );
+        $response = $this->post(
+            $this->registerUri,
+            [
+                'name' => 'Admin',
+                'username' => 'admin',
                 'email' => 'admin2@example.com',
                 'password' => 'Admin123!'
             ]
         );
         $response->assertStatus(409);
-        $response->assertJson(static function (AssertableJson $json) {
-            $json->assertJsonStructure([
-                'error' => [
-                    'code',
-                    'message',
-                    'data'
-                ]
-            ]);
-        });
+        $response->assertJsonStructure([
+            'error' => [
+                'code',
+                'message',
+                'data'
+            ]
+        ]);
     }
 
     /**
@@ -195,21 +192,28 @@ class RegisterUserTest extends TestCase
             $this->registerUri,
             [
                 'name' => 'Admin',
+                'username' => 'admin',
+                'email' => 'admin@example.com',
+                'password' => 'Admin123!'
+            ]
+        );
+        $response = $this->post(
+            $this->registerUri,
+            [
+                'name' => 'Admin',
                 'username' => 'admin2',
                 'email' => 'admin@example.com',
                 'password' => 'Admin123!'
             ]
         );
         $response->assertStatus(409);
-        $response->assertJson(static function (AssertableJson $json) {
-            $json->assertJsonStructure([
-                'error' => [
-                    'code',
-                    'message',
-                    'data'
-                ]
-            ]);
-        });
+        $response->assertJsonStructure([
+            'error' => [
+                'code',
+                'message',
+                'data'
+            ]
+        ]);
     }
 
     /**
@@ -227,14 +231,12 @@ class RegisterUserTest extends TestCase
             ]
         );
         $response->assertStatus(400);
-        $response->assertJson(static function (AssertableJson $json) {
-            $json->assertJsonStructure([
-                'error' => [
-                    'code',
-                    'message',
-                    'data'
-                ]
-            ]);
-        });
+        $response->assertJsonStructure([
+            'error' => [
+                'code',
+                'message',
+                'data'
+            ]
+        ]);
     }
 }
