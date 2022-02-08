@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\RegisterUserRequest;
 use App\Services\UserService;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * UserController class
@@ -26,8 +27,9 @@ class UserController extends Controller
      * Register a new user
      * @param RegisterUserRequest $request
      */
-    final public function registerUser(RegisterUserRequest $request)
+    final public function registerUser(RegisterUserRequest $request) : JsonResource
     {
-        // TODO: Implement registerUser() method.
+        $data = $request->validated();
+        return $this->userService->register($data);
     }
 }
