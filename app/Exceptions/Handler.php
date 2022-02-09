@@ -8,6 +8,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Laravel\Passport\Exceptions\OAuthServerException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
@@ -88,7 +89,7 @@ class Handler extends ExceptionHandler
             );
         });
 
-        $this->renderable(function (UnauthorizedException | AuthenticationException | OAuthServerException $e) {
+        $this->renderable(function (UnauthorizedException | AuthenticationException | OAuthServerException | AccessDeniedHttpException $e) {
             return response()->json(
                 $this->getErrorData(
                     ErrorConstants::ERROR_CODES[ErrorConstants::UNAUTHORIZED],

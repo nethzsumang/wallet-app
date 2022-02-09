@@ -26,5 +26,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Passport::routes();
+        Passport::tokensCan([
+            'user_create' => 'Can create user',
+            'user_read' => 'Can read user',
+            'user_update' => 'Can update user',
+            'user_delete' => 'Can delete user',
+        ]);
     }
 }

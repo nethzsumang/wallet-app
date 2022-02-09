@@ -22,7 +22,7 @@ Route::middleware('auth:api')->group(static function () {
     });
     
     Route::prefix('/users')->group(static function () {
-        Route::post('/', 'UserController@registerUser');
+        Route::post('/', 'UserController@registerUser')->middleware('scopes:user:create');
         Route::post('/check-credentials', 'AuthController@checkCredentials');
     });
 });
