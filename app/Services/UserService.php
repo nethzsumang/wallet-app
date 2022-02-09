@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use App\Exceptions\ConflictException;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,7 +35,7 @@ class UserService extends BaseService
     {
         $this->checkUniqueFields($data);
         $user = $this->userRepository->create($data);
-        return new JsonResource($user);
+        return new UserResource($user);
     }
 
     /**
