@@ -3,9 +3,13 @@
 namespace App\Exceptions;
 
 use App\Constants\ErrorConstants;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Laravel\Passport\Exceptions\OAuthServerException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -84,7 +88,7 @@ class Handler extends ExceptionHandler
             );
         });
 
-        $this->renderable(function (UnauthorizedException $e) {
+        $this->renderable(function (UnauthorizedException|AuthenticationException|OAuthServerException $e) {
             return response()->json(
                 $this->getErrorData(
                     ErrorConstants::ERROR_CODES[ErrorConstants::UNAUTHORIZED],
@@ -113,6 +117,26 @@ class Handler extends ExceptionHandler
                 ErrorConstants::ERROR_CODES[ErrorConstants::CONFLICT]
             );
         });
+
+        $this->renderable(function (RouteNotFoundException $e) {
+            return response()->json(
+                $this->getErrorData(
+                    ErrorConstants::ERROR_CODES[ErrorConstants::NOT_FOUND],
+                    $e->getMessage()
+                ),
+                ErrorConstants::ERROR_CODES[ErrorConstants::NOT_FOUND]
+            );
+        });
+
+        $this->renderable(function (NotFoundHttpException $e) {
+            return response()->json(
+                $this->getErrorData(
+                    ErrorConstants::ERROR_CODES[ErrorConstants::NOT_FOUND],
+                    request()->path() . ' not found.'
+                ),
+                ErrorConstants::ERROR_CODES[ErrorConstants::NOT_FOUND]
+            );
+        });
     }
 
     /**
@@ -124,11 +148,10 @@ class Handler extends ExceptionHandler
     private function getErrorData(int $code, string $message, array $data = []) : array
     {
         return [
-            'error' => [
-                'code' => $code,
-                'message' => $message,
-                'data' => $data
-            ]
+            'status' => $code,
+            'message' => $message,
+            'data' => $data,
+            'timestamp' => now()->toDateTimeString()
         ];
     }
 }

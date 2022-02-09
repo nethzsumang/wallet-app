@@ -48,4 +48,21 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($value);
     }
+
+    /**
+     * Find the user instance for the given username.
+     *
+     * @param  string  $username
+     * @return \App\Models\User
+     */
+    public function findForPassport($username)
+    {
+        return $this->where('username', $username)->first();
+    }
+
+    public function findAndValidateForPassport($username, $password)
+    {
+        $attributes = [ 'username' => $username, 'password' => $password ];
+        return new static ($attributes);
+    }
 }
