@@ -15,10 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->group(static function () {
+    Route::get('/', static function () {
+        return response()->json([
+            'message' => 'Welcome to the API',
+        ]);
+    });
     
-});
-
-Route::prefix('/users')->group(static function () {
-    Route::post('/', 'UserController@registerUser');
-    Route::post('/check-credentials', 'AuthController@checkCredentials');
+    Route::prefix('/users')->group(static function () {
+        Route::post('/', 'UserController@registerUser');
+        Route::post('/check-credentials', 'AuthController@checkCredentials');
+    });
 });
