@@ -88,7 +88,7 @@ class Handler extends ExceptionHandler
             );
         });
 
-        $this->renderable(function (UnauthorizedException|AuthenticationException|OAuthServerException $e) {
+        $this->renderable(function (UnauthorizedException | AuthenticationException | OAuthServerException $e) {
             return response()->json(
                 $this->getErrorData(
                     ErrorConstants::ERROR_CODES[ErrorConstants::UNAUTHORIZED],
