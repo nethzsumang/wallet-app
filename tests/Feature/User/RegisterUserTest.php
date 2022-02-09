@@ -6,6 +6,7 @@ use App\Http\Requests\User\RegisterUserRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 /**
@@ -35,7 +36,6 @@ class RegisterUserTest extends TestCase
             $this->registerUri,
             [
                 'name' => 'Admin',
-                'username' => 'admin',
                 'email' => 'admin@example.com',
                 'password' => 'Admin123!'
             ]
@@ -61,7 +61,6 @@ class RegisterUserTest extends TestCase
         $response = $this->post(
             $this->registerUri,
             [
-                'username' => 'admin',
                 'email' => 'admin@example.com',
                 'password' => 'Admin123!'
             ]
@@ -78,29 +77,6 @@ class RegisterUserTest extends TestCase
     }
 
     /**
-     * Tests for missing username
-     */
-    public function testMissingUsername()
-    {
-        $response = $this->post(
-            $this->registerUri,
-            [
-                'name' => 'Admin',
-                'email' => 'admin@example.com',
-                'password' => 'Admin123!'
-            ]
-        );
-        $response->assertStatus(400);
-        $response->assertJsonStructure([
-            'error' => [
-                'code',
-                'message',
-                'data'
-            ]
-        ]);
-    }
-
-    /**
      * Tests for missing email
      */
     public function testMissingEmail()
@@ -109,7 +85,6 @@ class RegisterUserTest extends TestCase
             $this->registerUri,
             [
                 'name' => 'Admin',
-                'username' => 'admin',
                 'password' => 'Admin123!'
             ]
         );
@@ -132,47 +107,11 @@ class RegisterUserTest extends TestCase
             $this->registerUri,
             [
                 'name' => 'Admin',
-                'username' => 'admin',
                 'email' => 'admin@example.com'
             ]
         );
         var_dump($response->json());
         $response->assertStatus(400);
-        $response->assertJsonStructure([
-            'error' => [
-                'code',
-                'message',
-                'data'
-            ]
-        ]);
-    }
-
-    /**
-     * Test for duplicate username
-     *
-     * @return void
-     */
-    public function testDuplicateUsername()
-    {
-        $response = $this->post(
-            $this->registerUri,
-            [
-                'name' => 'Admin',
-                'username' => 'admin',
-                'email' => 'admin@example.com',
-                'password' => 'Admin123!'
-            ]
-        );
-        $response = $this->post(
-            $this->registerUri,
-            [
-                'name' => 'Admin',
-                'username' => 'admin',
-                'email' => 'admin2@example.com',
-                'password' => 'Admin123!'
-            ]
-        );
-        $response->assertStatus(409);
         $response->assertJsonStructure([
             'error' => [
                 'code',
@@ -193,7 +132,6 @@ class RegisterUserTest extends TestCase
             $this->registerUri,
             [
                 'name' => 'Admin',
-                'username' => 'admin',
                 'email' => 'admin@example.com',
                 'password' => 'Admin123!'
             ]
@@ -202,7 +140,6 @@ class RegisterUserTest extends TestCase
             $this->registerUri,
             [
                 'name' => 'Admin',
-                'username' => 'admin2',
                 'email' => 'admin@example.com',
                 'password' => 'Admin123!'
             ]

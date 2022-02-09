@@ -26,7 +26,6 @@ class RegisterUserRequest extends BaseRequest
     {
         return [
             'name' => ['required', 'string', 'max:100'],
-            'username' => ['required', 'string', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:100'],
             'password' => [
                 'required',
