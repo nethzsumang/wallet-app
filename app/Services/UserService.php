@@ -48,7 +48,6 @@ class UserService extends BaseService
     final public function getUsers(array $filters) : ResourceCollection
     {
         $users = $this->userRepository->getUsers($filters);
-        // logger($users);
         return new UsersCollection($users);
     }
 
