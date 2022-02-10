@@ -25,4 +25,8 @@ Route::middleware('auth:api')->group(static function () {
         Route::post('/', 'UserController@registerUser')->middleware('scopes:user:create');
         Route::get('/', 'UserController@getUsers')->middleware('scopes:user:read');
     });
+
+    Route::prefix('/accounts')->group(static function () {
+        Route::post('/', 'AccountController@createAccount')->middleware('scopes:account:create');
+    });
 });
