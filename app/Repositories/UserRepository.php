@@ -29,6 +29,7 @@ class UserRepository extends BaseRepository
     final public function getUsers(array $filters) : LengthAwarePaginator
     {
         return $this->model
+            ->select($this->formatColumns())
             ->when(Arr::has($filters, 'name'), static function ($query) use($filters) {
                 $name = Arr::get($filters, 'name');
                 return $query->where('name', 'like', "%{$name}%");
