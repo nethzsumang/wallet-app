@@ -4,7 +4,9 @@ namespace App\Services;
 use App\Repositories\UserRepository;
 use App\Exceptions\ConflictException;
 use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\UsersCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -36,6 +38,18 @@ class UserService extends BaseService
         $this->checkUniqueFields($data);
         $user = $this->userRepository->create($data);
         return new UserResource($user);
+    }
+
+    /**
+     * Fetch users
+     * @param array $filters
+     * @return ResourceCollection
+     */
+    final public function getUsers(array $filters) : ResourceCollection
+    {
+        $users = $this->userRepository->getUsers($filters);
+        // logger($users);
+        return new UsersCollection($users);
     }
 
     /**
