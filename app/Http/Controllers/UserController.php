@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\RegisterUserRequest;
+use App\Http\Requests\User\SearchUsersRequest;
 use App\Services\UserService;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 /**
  * UserController class
@@ -31,5 +33,16 @@ class UserController extends Controller
     {
         $data = $request->validated();
         return $this->userService->register($data);
+    }
+
+    /**
+     * Fetch users
+     * @param SearchUsersRequest $request
+     * @return ResourceCollection
+     */
+    final public function getUsers(SearchUsersRequest $request) : ResourceCollection
+    {
+        $filters = $request->validated();
+        return $this->userService->getUsers($filters);
     }
 }
