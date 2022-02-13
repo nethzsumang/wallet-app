@@ -2,7 +2,6 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -54,9 +53,9 @@ class BaseRepository
 
     /**
      * @param array $data
-     * @return mixed
+     * @return Model
      */
-    public function create(array $data)
+    public function create(array $data) : Model
     {
         return $this->model::create($data);
     }
@@ -64,9 +63,9 @@ class BaseRepository
     /**
      * @param array $data
      * @param int $id
-     * @return mixed
+     * @return int
      */
-    public function update(array $data, int $id)
+    public function update(array $data, int $id) : int
     {
         return $this->model::find($id)->update($data);
     }
