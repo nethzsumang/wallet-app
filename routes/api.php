@@ -28,5 +28,6 @@ Route::middleware('auth:api')->group(static function () {
 
     Route::prefix('/accounts')->group(static function () {
         Route::post('/', 'AccountController@createAccount')->middleware('scopes:account:create');
+        Route::get('/', 'AccountController@getAccounts')->middleware('scopes:account:read');
     });
 });

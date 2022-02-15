@@ -5,6 +5,7 @@ use App\Exceptions\NotFoundException;
 use App\Http\Resources\Account\AccountResource;
 use App\Repositories\AccountRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,6 +40,17 @@ class AccountService extends BaseService
         $account = $this->accountRepository->create($data);
         $accountWithSummary = $this->accountRepository->getAccountWithSummaries($account->id);
         return new AccountResource($accountWithSummary);
+    }
+
+    /**
+     * Get all accounts
+     * @param array $filters
+     * @return ResourceCollection
+     */
+    final public function getAccounts(array $filters) : ResourceCollection
+    {
+        // $accounts = $this->accountRepository->getAccounts();
+        return AccountResource::collection([]);
     }
 
     /**
