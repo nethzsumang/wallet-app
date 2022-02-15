@@ -27,7 +27,7 @@ class CreateAccountRequest extends BaseRequest
             'user_id' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:50'],
             'description' => ['nullable', 'string', 'max:100'],
-            'amount' => ['required', 'numeric']
+            'amount' => ['required', 'numeric', 'min:0'],
         ];
     }
 }
