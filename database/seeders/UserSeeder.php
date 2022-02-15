@@ -25,7 +25,6 @@ class UserSeeder extends Seeder
     {
         $this->userService->register([
             'name' => 'Admin',
-            'username' => 'admin',
             'password' => env('ADMIN_USER_PASSWORD'),
             'email' => 'admin@example.com'
         ]);
