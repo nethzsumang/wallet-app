@@ -26,7 +26,6 @@ class AccountRepository extends BaseRepository
     final public function getAccountWithSummaries(int $accountId) : Account
     {
         return $this->model
-            ->select($this->formatColumns())
             ->with('accountSummaries')
             ->where('id', $accountId)
             ->first();
