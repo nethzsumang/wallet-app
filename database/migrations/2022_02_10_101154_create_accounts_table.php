@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('name', 50);
-            $table->string('description', 100);
+            $table->string('description', 100)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

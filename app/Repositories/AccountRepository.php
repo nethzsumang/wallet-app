@@ -17,4 +17,18 @@ class AccountRepository extends BaseRepository
     {
         parent::__construct($account);
     }
+
+    /**
+     * Gets account with summary
+     * @param int $accountId
+     * @return Account
+     */
+    final public function getAccountWithSummaries(int $accountId) : Account
+    {
+        return $this->model
+            ->select($this->formatColumns())
+            ->with('accountSummaries')
+            ->where('id', $accountId)
+            ->first();
+    }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Account\CreateAccountRequest;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * AccountController class
@@ -23,8 +25,14 @@ class AccountController extends Controller
         $this->accountService = $accountService;
     }
 
-    final public function createAccount()
+    /**
+     * Create a new account
+     * @param CreateAccountRequest $request
+     * @return JsonResource
+     */
+    final public function createAccount(CreateAccountRequest $request) : JsonResource
     {
-        // TODO: Implement createAccount() method.
+        $data = $request->validated();
+        return $this->accountService->createAccount($data);
     }
 }

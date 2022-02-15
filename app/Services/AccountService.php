@@ -3,7 +3,6 @@ namespace App\Services;
 
 use App\Http\Resources\Account\AccountResource;
 use App\Repositories\AccountRepository;
-use App\Repositories\AccountSummaryRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 
@@ -16,18 +15,13 @@ class AccountService extends BaseService
     /** @var AccountRepository */
     private AccountRepository $accountRepository;
 
-    /** @var AccountSummaryRepository */
-    private AccountSummaryRepository $accountSummaryRepository;
-
     /**
      * AccountService constructor.
      * @param AccountRepository $accountRepository
-     * @param AccountSummaryRepository $accountSummaryRepository
      */
-    public function __construct(AccountRepository $accountRepository, AccountSummaryRepository $accountSummaryRepository)
+    public function __construct(AccountRepository $accountRepository)
     {
         $this->accountRepository = $accountRepository;
-        $this->accountSummaryRepository = $accountSummaryRepository;
     }
 
     /**
@@ -37,14 +31,9 @@ class AccountService extends BaseService
      */
     final public function createAccount(array $data): JsonResource
     {
-        $amount = Arr::pull($data, 'amount');
+        Arr::forget($data, 'amount');
         $account = $this->accountRepository->create($data);
-        $latestInsertedId = $account->id;
-        $this->accountSummaryRepository->create([
-            'account_id' => $latestInsertedId,
-            'amount' => $amount,
-            'date' => date('Y-m-d')
-        ]);
-        return new AccountResource($account);
+        $accountWithSummary = $this->accountRepository->getAccountWithSummaries($account->id);
+        return new AccountResource($accountWithSummary);
     }
 }
