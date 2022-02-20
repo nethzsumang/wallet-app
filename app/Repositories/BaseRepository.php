@@ -52,6 +52,34 @@ class BaseRepository
     }
 
     /**
+     * Formats order list to be used in query
+     * @return array
+     */
+    protected function orderResults() : array
+    {
+        $orderBy = request()->has('sortkey') === false || request()->get('sortkey') === null
+            ? 'id'
+            : request()->get('sortkey');
+
+        $orderDir = request()->has('sortdir') === false || request()->get('sortdir') === null
+            ? 'asc'
+            : request()->get('sortdir');
+
+        return [$orderBy, $orderDir];
+    }
+
+    /**
+     * Formats pagination to be used in query
+     * @return int
+     */
+    protected function paginateResults() : int
+    {
+        return request()->has('limit') === false || request()->get('limit') === null
+            ? 10
+            : request()->get('limit');
+    }
+
+    /**
      * @param array $data
      * @return Model
      */
