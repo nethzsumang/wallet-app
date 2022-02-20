@@ -24,7 +24,8 @@ class SearchAccountsRequest extends BaseRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['string'],
+            'user_id' => ['integer']
         ];
     }
 }
