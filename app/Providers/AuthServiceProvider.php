@@ -38,6 +38,12 @@ class AuthServiceProvider extends ServiceProvider
             'account_read' => 'Can read account',
             'account_update' => 'Can update account',
             'account_delete' => 'Can delete account',
+
+            // record tokens
+            'record_create' => 'Can create records',
+            'record_read' => 'Can read records',
+            'record_update' => 'Can update record',
+            'record_delete' => 'Can delete records',
         ]);
     }
 }
